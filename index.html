@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<title>Devang Barot — Business Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a1a;
+    --mid: #6b6b6b;
+    --light: #b0b0b0;
+    --rule: #e0ddd8;
+    --bg: #faf9f7;
+    --accent: #c8a96e;
+    --white: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 3rem;
+    background: rgba(250,249,247,0.96);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; font-weight: 300; letter-spacing: 0.08em;
+    color: var(--ink); text-decoration: none; white-space: nowrap; flex-shrink: 0;
+  }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; flex-wrap: nowrap; }
+  .nav-links a {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--mid); text-decoration: none;
+    transition: color 0.2s; white-space: nowrap;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-badge {
+    font-size: 0.66rem; font-weight: 500; letter-spacing: 0.09em;
+    text-transform: uppercase; padding: 0.28rem 0.85rem;
+    border: 1px solid var(--accent); color: var(--accent);
+    border-radius: 2px; white-space: nowrap; flex-shrink: 0;
+  }
+  .nav-hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px; background: none; border: none; flex-shrink: 0;
+  }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); transition: all 0.3s; }
+  .mobile-menu {
+    display: none; position: fixed; top: 58px; left: 0; right: 0;
+    background: rgba(250,249,247,0.99); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    padding: 1.2rem 1.8rem; z-index: 199;
+    flex-direction: column; gap: 0;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--mid); text-decoration: none;
+    padding: 0.75rem 0; border-bottom: 1px solid var(--rule); display: block;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 100px 3rem 5rem;
+    border-bottom: 1px solid var(--rule);
+    position: relative; overflow: hidden;
+  }
+  .hero-counter {
+    position: absolute; top: 50%; right: 3rem; transform: translateY(-50%);
+    writing-mode: vertical-rl; font-size: 0.66rem; letter-spacing: 0.22em;
+    color: var(--light); text-transform: uppercase;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem;
+    opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 9vw, 7.5rem);
+    font-weight: 300; line-height: 1.0; letter-spacing: -0.01em; color: var(--ink);
+    opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+  .hero-name em { font-style: italic; color: var(--accent); }
+  .hero-tagline {
+    margin-top: 1.5rem; max-width: 500px;
+    font-size: 0.94rem; font-weight: 300; color: var(--mid); line-height: 1.8;
+    opacity: 0; animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+  .hero-cta {
+    margin-top: 2.5rem; display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+  .btn-primary {
+    display: inline-block; padding: 0.78rem 1.9rem;
+    background: var(--ink); color: var(--white);
+    font-size: 0.74rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none; border-radius: 2px;
+    transition: background 0.2s, transform 0.2s; white-space: nowrap;
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+  .btn-ghost {
+    display: inline-block; padding: 0.78rem 1.7rem;
+    font-size: 0.74rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--mid); text-decoration: none;
+    border: 1px solid var(--rule); border-radius: 2px;
+    transition: color 0.2s, border-color 0.2s; white-space: nowrap;
+  }
+  .btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+  .btn-google {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.78rem 1.6rem;
+    font-size: 0.74rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); text-decoration: none;
+    border: 1px solid var(--accent); border-radius: 2px;
+    transition: background 0.2s, color 0.2s; white-space: nowrap;
+  }
+  .btn-google:hover { background: var(--accent); color: var(--white); }
+  .btn-linkedin {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.78rem 1.5rem;
+    font-size: 0.74rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--mid); text-decoration: none;
+    border: 1px solid var(--rule); border-radius: 2px;
+    transition: color 0.2s, border-color 0.2s; white-space: nowrap;
+  }
+  .btn-linkedin:hover { color: #0077b5; border-color: #0077b5; }
+  .hero-stats {
+    display: flex; gap: 2.5rem; flex-wrap: wrap; margin-top: 3rem;
+    opacity: 0; animation: fadeUp 0.8s ease 1s forwards;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 300; line-height: 1; color: var(--ink);
+  }
+  .stat-label {
+    font-size: 0.64rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--light); margin-top: 0.2rem;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 3rem; border-bottom: 1px solid var(--rule); }
+  .section-header {
+    display: flex; align-items: baseline; gap: 1.1rem; margin-bottom: 3.5rem; flex-wrap: wrap;
+  }
+  .section-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: var(--accent); flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 300; letter-spacing: 0.01em;
+  }
+  .section-rule { flex: 1; height: 1px; background: var(--rule); min-width: 20px; }
+
+  /* ── ABOUT ── */
+  #about .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .about-text p { color: var(--mid); margin-bottom: 1.1rem; font-weight: 300; font-size: 0.94rem; }
+  .detail-row {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+    padding: 0.85rem 0; border-bottom: 1px solid var(--rule); font-size: 0.82rem;
+  }
+  .detail-row:first-child { border-top: 1px solid var(--rule); }
+  .detail-key { font-size: 0.66rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--light); flex-shrink: 0; }
+  .detail-val { color: var(--ink); font-weight: 400; text-align: right; word-break: break-word; }
+  .detail-val a { color: var(--accent); text-decoration: none; }
+  .detail-val a:hover { text-decoration: underline; }
+
+  /* ── SKILLS ── */
+  #skills .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .skill-card { background: var(--white); padding: 1.9rem; transition: background 0.2s; }
+  .skill-card:hover { background: var(--ink); }
+  .skill-card:hover .skill-cat, .skill-card:hover .skill-list li { color: var(--white); }
+  .skill-card:hover .skill-list li::before { color: var(--accent); }
+  .skill-cat { font-size: 0.66rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.1rem; font-weight: 500; transition: color 0.2s; }
+  .skill-list { list-style: none; }
+  .skill-list li { font-size: 0.82rem; color: var(--mid); padding: 0.26rem 0; font-weight: 300; transition: color 0.2s; }
+  .skill-list li::before { content: '— '; color: var(--rule); transition: color 0.2s; }
+
+  /* ── EXPERIENCE ── */
+  #experience .exp-list { display: flex; flex-direction: column; }
+  .exp-item { display: grid; grid-template-columns: 175px 1fr; gap: 2.5rem; padding: 2.5rem 0; border-bottom: 1px solid var(--rule); }
+  .exp-item:first-child { border-top: 1px solid var(--rule); }
+  .exp-date { font-size: 0.71rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--light); padding-top: 0.3rem; line-height: 1.8; }
+  .exp-role { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: 0.2rem; }
+  .exp-company { font-size: 0.74rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.9rem; }
+  .exp-desc { font-size: 0.87rem; color: var(--mid); font-weight: 300; line-height: 1.8; margin-bottom: 0.8rem; }
+  .exp-bullets { list-style: none; margin: 0.7rem 0; }
+  .exp-bullets li { font-size: 0.84rem; color: var(--mid); padding: 0.35rem 0 0.35rem 1.2rem; font-weight: 300; position: relative; border-bottom: 1px solid var(--rule); }
+  .exp-bullets li:last-child { border-bottom: none; }
+  .exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+  .exp-bullets li strong { color: var(--ink); font-weight: 500; }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+  .tag { font-size: 0.64rem; letter-spacing: 0.09em; text-transform: uppercase; padding: 0.22rem 0.7rem; border: 1px solid var(--rule); color: var(--mid); border-radius: 1px; }
+  .doc-links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+  .doc-link {
+    font-size: 0.66rem; letter-spacing: 0.09em; text-transform: uppercase;
+    padding: 0.3rem 0.85rem; border: 1px solid var(--rule);
+    color: var(--accent); text-decoration: none; border-radius: 1px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .doc-link:hover { background: var(--accent); color: var(--white); border-color: var(--accent); }
+
+  /* ── PROJECTS ── */
+  #projects .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+  .project-card {
+    background: var(--white); padding: 2.4rem; position: relative; overflow: hidden;
+    transition: transform 0.3s ease; text-decoration: none; display: block; color: inherit;
+  }
+  .project-card:hover { transform: translateY(-3px); }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--rule); transition: background 0.3s; }
+  .project-card:hover::before { background: var(--accent); }
+  .project-num { font-family: 'Cormorant Garamond', serif; font-size: 0.84rem; color: var(--light); margin-bottom: 0.7rem; }
+  .project-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 0.55rem; }
+  .project-stack { font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.85rem; }
+  .project-desc { font-size: 0.83rem; color: var(--mid); font-weight: 300; line-height: 1.8; }
+  .project-link-row { margin-top: 0.9rem; }
+  .project-link { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 1px; transition: border-color 0.2s; }
+  .project-link:hover { border-color: var(--accent); }
+
+  /* ── EDUCATION ── */
+  #education .edu-list { display: flex; flex-direction: column; }
+  .edu-item { display: grid; grid-template-columns: 175px 1fr; gap: 2.5rem; padding: 2.2rem 0; border-bottom: 1px solid var(--rule); }
+  .edu-item:first-child { border-top: 1px solid var(--rule); }
+  .edu-year { font-size: 0.7rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--light); padding-top: 0.22rem; }
+  .edu-degree { font-family: 'Cormorant Garamond', serif; font-size: 1.28rem; font-weight: 400; margin-bottom: 0.22rem; }
+  .edu-school { font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+  .edu-detail { font-size: 0.82rem; color: var(--mid); font-weight: 300; }
+  .edu-badge { display: inline-block; margin-top: 0.5rem; font-size: 0.63rem; letter-spacing: 0.09em; text-transform: uppercase; padding: 0.22rem 0.65rem; background: #f0f5ec; color: #5a7a52; border-radius: 2px; }
+
+  /* ── RESEARCH ── */
+  #research .research-card {
+    background: var(--white); padding: 2.4rem;
+    display: flex; justify-content: space-between; align-items: center; gap: 2.5rem; flex-wrap: wrap; margin-bottom: 2px;
+  }
+  .research-label { font-size: 0.64rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.45rem; }
+  .research-title { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 400; margin-bottom: 0.4rem; }
+  .research-pub { font-size: 0.78rem; color: var(--mid); }
+  .research-link {
+    display: inline-block; padding: 0.65rem 1.5rem; flex-shrink: 0;
+    border: 1px solid var(--ink); color: var(--ink);
+    font-size: 0.68rem; letter-spacing: 0.11em; text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .research-link:hover { background: var(--ink); color: var(--white); }
+
+  /* ── CERTIFICATIONS ── */
+  #certs .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .cert-card { background: var(--white); padding: 1.8rem 2rem; display: flex; flex-direction: column; gap: 0.45rem; }
+  .cert-issuer { font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  .cert-name { font-size: 0.88rem; font-weight: 400; color: var(--ink); line-height: 1.5; flex: 1; }
+  .cert-skills { font-size: 0.76rem; color: var(--mid); font-weight: 300; line-height: 1.6; }
+  .cert-link {
+    display: inline-block; margin-top: 0.5rem; align-self: flex-start;
+    font-size: 0.64rem; letter-spacing: 0.09em; text-transform: uppercase;
+    padding: 0.26rem 0.8rem; border: 1px solid var(--rule);
+    color: var(--accent); text-decoration: none; border-radius: 1px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .cert-link:hover { background: var(--accent); color: var(--white); border-color: var(--accent); }
+
+  /* ── WIREFRAMES & PITCH DECKS ── */
+  .wf-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+  .wf-card {
+    background: var(--white); padding: 1.6rem;
+    font-size: 0.84rem; font-weight: 400; color: var(--ink);
+    border-left: 3px solid transparent;
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none; display: block;
+  }
+  .wf-card:hover { border-color: var(--accent); background: #fefdfb; }
+  .wf-card-label { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--light); margin-bottom: 0.32rem; }
+  .wf-card-arrow { font-size: 0.68rem; color: var(--accent); margin-top: 0.4rem; display: block; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--ink); color: var(--white); border-bottom: none; }
+  #contact .section-title { color: var(--white); }
+  #contact .section-rule { background: #333; }
+  #contact .section-num { color: var(--accent); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+  .contact-text { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; line-height: 1.6; color: #ccc; }
+  .contact-links { display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-item { display: flex; flex-direction: column; gap: 0.18rem; }
+  .contact-item-label { font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); }
+  .contact-item-val { font-size: 0.9rem; color: var(--white); word-break: break-all; }
+  .contact-item-val a { color: var(--accent); text-decoration: none; }
+  .contact-item-val a:hover { text-decoration: underline; }
+  .contact-divider { height: 1px; background: #2a2a2a; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); padding: 1.8rem 3rem;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;
+    border-top: 1px solid #2a2a2a;
+  }
+  .footer-name { font-family: 'Cormorant Garamond', serif; font-size: 0.88rem; color: #555; }
+  .footer-note { font-size: 0.68rem; color: #444; letter-spacing: 0.08em; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .revealed { opacity: 1; transform: translateY(0); }
+
+  /* ── TABLET (≤1100px) ── */
+  @media (max-width: 1100px) {
+    nav { padding: 1rem 2rem; }
+    .nav-links { gap: 1rem; }
+    .nav-links a { font-size: 0.68rem; }
+    section { padding: 5rem 2rem; }
+    #hero { padding: 95px 2rem 4.5rem; }
+    .hero-counter { display: none; }
+    #about .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    #skills .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    #projects .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    #certs .certs-grid { grid-template-columns: repeat(2, 1fr); }
+    .wf-grid { grid-template-columns: repeat(3, 1fr); }
+    .contact-grid { gap: 3rem; }
+  }
+
+  /* ── MEDIUM TABLET / LARGE PHONE (≤850px) ── */
+  @media (max-width: 850px) {
+    .nav-links { display: none; }
+    .nav-badge { display: none; }
+    .nav-hamburger { display: flex; }
+    nav { padding: 1rem 1.5rem; }
+    section { padding: 4.5rem 1.8rem; }
+    #hero { padding: 88px 1.8rem 4rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.4rem; }
+    .edu-item { grid-template-columns: 1fr; gap: 0.4rem; }
+    .wf-grid { grid-template-columns: repeat(2, 1fr); }
+    .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .research-card { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ── MOBILE (≤600px) ── */
+  @media (max-width: 600px) {
+    section { padding: 3.5rem 1.2rem; }
+    #hero { padding: 85px 1.2rem 3.5rem; }
+    .hero-name { font-size: clamp(2.6rem, 13vw, 3.8rem); }
+    #skills .skills-grid { grid-template-columns: 1fr; }
+    #projects .projects-grid { grid-template-columns: 1fr; }
+    #certs .certs-grid { grid-template-columns: 1fr; }
+    .wf-grid { grid-template-columns: 1fr; }
+    .section-rule { display: none; }
+    .hero-stats { gap: 1.2rem; }
+    .hero-cta { flex-direction: column; align-items: flex-start; gap: 0.7rem; }
+    footer { padding: 1.5rem 1.2rem; justify-content: center; text-align: center; }
+  }
+
+  /* ── VERY SMALL (≤380px) ── */
+  @media (max-width: 380px) {
+    section { padding: 3rem 1rem; }
+    #hero { padding: 80px 1rem 3rem; }
+    .hero-name { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Devang Barot</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#wireframes">Wireframes</a></li>
+    <li><a href="#pitchdecks">Pitches</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <span class="nav-badge">Business Analyst</span>
+  <button class="nav-hamburger" onclick="document.querySelector('.mobile-menu').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="#about" onclick="this.parentElement.classList.remove('open')">About</a>
+  <a href="#skills" onclick="this.parentElement.classList.remove('open')">Skills</a>
+  <a href="#experience" onclick="this.parentElement.classList.remove('open')">Experience</a>
+  <a href="#projects" onclick="this.parentElement.classList.remove('open')">Projects</a>
+  <a href="#wireframes" onclick="this.parentElement.classList.remove('open')">Wireframes</a>
+  <a href="#pitchdecks" onclick="this.parentElement.classList.remove('open')">Pitch Decks</a>
+  <a href="#education" onclick="this.parentElement.classList.remove('open')">Education</a>
+  <a href="#certs" onclick="this.parentElement.classList.remove('open')">Certifications</a>
+  <a href="#contact" onclick="this.parentElement.classList.remove('open')">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div>
+    <p class="hero-eyebrow">Portfolio — Business Analyst</p>
+    <h1 class="hero-name">Devang<br><em>Barot</em></h1>
+    <p class="hero-tagline">Business Analyst with a background in computer engineering, specialising in requirements gathering, FRD/BRD/SRS documentation, wireframing, and cross-functional project delivery across SaaS, insurance, beauty, and logistics sectors.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+      <a href="https://www.skills.google/public_profiles/9f4c27e2-585d-478c-962b-b21338ab94cb" target="_blank" class="btn-google">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12.545 10.239v3.821h5.445c-.712 2.315-2.647 3.972-5.445 3.972a6.033 6.033 0 1 1 0-12.064c1.498 0 2.866.549 3.921 1.453l2.814-2.814A9.969 9.969 0 0 0 12.545 2C7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.748l-9.426-.013z"/></svg>
+        Google Profile
+      </a>
+      <a href="https://www.linkedin.com/in/devang-barot-012b88152/" target="_blank" class="btn-linkedin">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">7+</div><div class="stat-label">Client Projects</div></div>
+      <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Degrees</div></div>
+      <div class="stat-item"><div class="stat-num">13+</div><div class="stat-label">Pitch Decks</div></div>
+      <div class="stat-item"><div class="stat-num">1</div><div class="stat-label">Research Paper</div></div>
+    </div>
+  </div>
+  <div class="hero-counter">BA · London · 2025</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About Me</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm a driven Business Analyst with a strong technical foundation in computer engineering. My work sits at the intersection of client strategy and product delivery — bridging the gap between what stakeholders need and what development teams build.</p>
+      <p>At Hidden Brains Infotech, I led end-to-end BA responsibilities across a range of SaaS products spanning insurance, recruitment, beauty, and logistics — from requirement gathering and WBS development through FRD creation, wireframing, and go-live support.</p>
+      <p>I also completed a BA internship at Amdari in Manchester, working hands-on with BRD and SRS documentation, stakeholder communication workflows, and real-world BA project simulations. Currently pursuing an MSc in Cybersecurity Management at Ravensbourne University London.</p>
+    </div>
+    <div>
+      <div class="detail-row"><span class="detail-key">Location</span><span class="detail-val">London, UK</span></div>
+      <div class="detail-row"><span class="detail-key">Phone</span><span class="detail-val">+44 7901 371555</span></div>
+      <div class="detail-row"><span class="detail-key">Email</span><span class="detail-val"><a href="mailto:devangbarot112@gmail.com">devangbarot112@gmail.com</a></span></div>
+      <div class="detail-row"><span class="detail-key">LinkedIn</span><span class="detail-val"><a href="https://www.linkedin.com/in/devang-barot-012b88152/" target="_blank">devang-barot</a></span></div>
+      <div class="detail-row"><span class="detail-key">Google Skills</span><span class="detail-val"><a href="https://www.skills.google/public_profiles/9f4c27e2-585d-478c-962b-b21338ab94cb" target="_blank">View Profile</a></span></div>
+      <div class="detail-row"><span class="detail-key">Current Study</span><span class="detail-val">MSc Cybersecurity — Ravensbourne</span></div>
+      <div class="detail-row"><span class="detail-key">Availability</span><span class="detail-val">Open to opportunities</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-card">
+      <div class="skill-cat">BA Core</div>
+      <ul class="skill-list">
+        <li>Requirement Gathering</li>
+        <li>Functional Requirement Docs (FRD)</li>
+        <li>Business Requirement Docs (BRD)</li>
+        <li>Software Requirements Spec (SRS)</li>
+        <li>User Stories</li>
+        <li>Work Breakdown Structure</li>
+        <li>Risk Management</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Design & Wireframing</div>
+      <ul class="skill-list">
+        <li>Figma</li>
+        <li>Axure RP</li>
+        <li>Visily</li>
+        <li>Canva</li>
+        <li>User Experience Design (UED)</li>
+        <li>UX Research</li>
+        <li>Adobe Photoshop</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Technical</div>
+      <ul class="skill-list">
+        <li>Python (Django)</li>
+        <li>MySQL / DBMS</li>
+        <li>HTML / CSS / JavaScript</li>
+        <li>Machine Learning</li>
+        <li>Microsoft Power BI</li>
+        <li>Data Visualisation</li>
+        <li>REST API Integration</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Project Management</div>
+      <ul class="skill-list">
+        <li>Jira</li>
+        <li>Agile / Scrum</li>
+        <li>Stakeholder Communication</li>
+        <li>Documentation Lifecycle</li>
+        <li>Quality Assurance</li>
+        <li>Go-Live &amp; Post-launch Support</li>
+        <li>Estimation Coordination</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Cybersecurity Awareness</div>
+      <ul class="skill-list">
+        <li>SIEM / Splunk Concepts</li>
+        <li>MITRE ATT&amp;CK Framework</li>
+        <li>ISO/IEC 27001 Awareness</li>
+        <li>Data Governance</li>
+        <li>Risk &amp; Compliance</li>
+        <li>Cloud Security Principles</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <div class="skill-cat">Cloud & Platforms</div>
+      <ul class="skill-list">
+        <li>AWS (deployment exposure)</li>
+        <li>Firebase</li>
+        <li>Google Cloud</li>
+        <li>SaaS Architecture</li>
+        <li>API Integration</li>
+        <li>React Native (exposure)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="exp-list">
+
+    <!-- Amdari Manchester BA -->
+    <div class="exp-item reveal">
+      <div class="exp-date">2024<br>Manchester, UK</div>
+      <div>
+        <div class="exp-role">Business Analyst Intern</div>
+        <div class="exp-company">Amdari IT Company — Manchester, UK</div>
+        <div class="exp-desc">Completed an intensive BA job simulation and internship programme at Amdari's Manchester office, gaining real-world exposure to the full BA deliverable lifecycle within a structured programme.</div>
+        <ul class="exp-bullets">
+          <li>Produced <strong>BRD (Business Requirement Document)</strong> templates and complete project documentation from scratch</li>
+          <li>Created <strong>SRS (Software Requirements Specification)</strong> documents — a core deliverable for development team handoff</li>
+          <li>Participated in a structured <strong>BA job simulation</strong> covering all key phases of the requirements lifecycle</li>
+          <li>Practised <strong>stakeholder communication</strong> workflows, project scoping, and requirements validation exercises</li>
+          <li>Completed documentation exercises covering <strong>functional specifications, user stories, and process flows</strong></li>
+          <li>Gained hands-on exposure to <strong>business analysis in an IT consulting context</strong>, bridging client needs and technical delivery</li>
+        </ul>
+        <div class="doc-links">
+          <a href="https://docs.google.com/document/d/1RgEiuR1tJblUGiGEOoBnpz3tlrXZK8aKlDVGzzhRHnw/edit?usp=drive_link" target="_blank" class="doc-link">BRD Template →</a>
+          <a href="https://docs.google.com/document/d/17VtVy5pIeYDSGo3gVTl6QwsWpVVB1f-Z/edit?usp=drive_link" target="_blank" class="doc-link">BA Document 2 →</a>
+          <a href="https://docs.google.com/document/d/1fZ5UoL5P_in0-Pckb8oQYiWfGajKpMUW/edit?usp=drive_link" target="_blank" class="doc-link">BA Document 3 →</a>
+        </div>
+        <div class="exp-tags">
+          <span class="tag">BRD</span><span class="tag">SRS</span><span class="tag">FRD</span>
+          <span class="tag">User Stories</span><span class="tag">Stakeholder Comms</span>
+          <span class="tag">BA Simulation</span><span class="tag">IT Consulting</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden Brains -->
+    <div class="exp-item reveal">
+      <div class="exp-date">Feb 2024 – May 2025<br>Ahmedabad, India</div>
+      <div>
+        <div class="exp-role">Business Analyst</div>
+        <div class="exp-company">Hidden Brains Infotech Private Limited</div>
+        <div class="exp-desc">Led requirement gathering and documentation for multiple SaaS products across insurance, recruitment, beauty, and logistics. Managed end-to-end BA lifecycle from client workshops through go-live and post-launch support.</div>
+        <ul class="exp-bullets">
+          <li><strong>Requirement Gathering:</strong> Collaborated with clients to gather and document business needs and project goals</li>
+          <li><strong>Work Breakdown Structure (WBS):</strong> Developed detailed WBS plans, breaking projects into manageable tasks with clear deliverables</li>
+          <li><strong>FRD Creation:</strong> Produced Functional Requirement Documents detailing system features, functionality, and business rules</li>
+          <li><strong>Wireframing:</strong> Designed interactive wireframes in Figma and Axure RP for visual product representation</li>
+          <li><strong>Stakeholder Communication:</strong> Facilitated alignment between clients and developers on project expectations</li>
+          <li><strong>Go-Live &amp; Support:</strong> Managed product launches and provided post-launch support to address issues</li>
+          <li><strong>Risk Management:</strong> Identified and addressed potential project risks proactively throughout the lifecycle</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="tag">Requirement Gathering</span><span class="tag">FRD</span>
+          <span class="tag">Wireframing</span><span class="tag">Figma</span>
+          <span class="tag">Axure RP</span><span class="tag">Stakeholder Mgmt</span><span class="tag">Jira</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BrainyBeam -->
+    <div class="exp-item reveal">
+      <div class="exp-date">Mar 2020 – Feb 2021<br>Ahmedabad, India</div>
+      <div>
+        <div class="exp-role">Python Django Developer (Intern)</div>
+        <div class="exp-company">BrainyBeam Technologies Pvt. Ltd.</div>
+        <div class="exp-desc">Developed backend features using Python and Django framework. Contributed to web application development, database management, and API integrations — technical experience that now informs a more grounded approach to BA work.</div>
+        <div class="exp-tags">
+          <span class="tag">Python</span><span class="tag">Django</span>
+          <span class="tag">MySQL</span><span class="tag">REST APIs</span><span class="tag">HTML/CSS</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Key BA Projects</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="projects-grid">
+    <a href="https://www.hiresales.ai/" target="_blank" class="project-card reveal">
+      <div class="project-num">01</div>
+      <div class="project-title">HireSales.AI</div>
+      <div class="project-stack">PHP · MySQL · Python · ChatGPT 3/4 · Google API</div>
+      <div class="project-desc">AI-driven SaaS recruitment platform for South African sales talent. Features an AI Sales Role-Playing Tool simulating diverse customer profiles and an AI-powered candidate scoring engine based on CV analysis. Defined FRDs, led requirement workshops, and produced all wireframes.</div>
+      <div class="project-link-row"><span class="project-link">Visit Site →</span></div>
+    </a>
+    <div class="project-card reveal">
+      <div class="project-num">02</div>
+      <div class="project-title">Claim Track</div>
+      <div class="project-stack">PHP · MySQL · HTML · CSS · JavaScript</div>
+      <div class="project-desc">Insurance SaaS platform for automated claim submissions and real-time policy tracking focused on car accident claims. Managed full BA lifecycle from stakeholder interviews through FRD delivery and QA sign-off. Designed admin, staff, and mobile wireframes in Figma.</div>
+    </div>
+    <a href="https://www.saxoninsurancebrokers.com/" target="_blank" class="project-card reveal">
+      <div class="project-num">03</div>
+      <div class="project-title">Saxon Insurance</div>
+      <div class="project-stack">PHP · AWS · MySQL · Figma · Watchbase API</div>
+      <div class="project-desc">Comprehensive policy management system for watches, jewellery, and valuables. Integrates Watchbase API for real-time valuations and features an advanced rater matrix for dynamic pricing. Developed Figma wireframes and full FRD documentation.</div>
+      <div class="project-link-row"><span class="project-link">Visit Site →</span></div>
+    </a>
+    <a href="https://oyabeauty.com/" target="_blank" class="project-card reveal">
+      <div class="project-num">04</div>
+      <div class="project-title">Oyabeauty</div>
+      <div class="project-stack">React Native · Node.js · MongoDB · Stripe · Firebase · AWS</div>
+      <div class="project-desc">Beauty and wellness mobile app connecting users with professional beauty services. Gathered requirements for appointment management, real-time notifications, Google Maps integration, and payment flows. Delivered user story mapping across cross-timezone stakeholder sessions.</div>
+      <div class="project-link-row"><span class="project-link">Visit Site →</span></div>
+    </a>
+    <a href="https://guuruume.com/" target="_blank" class="project-card reveal">
+      <div class="project-num">05</div>
+      <div class="project-title">Guuruume</div>
+      <div class="project-stack">React Native · Node.js · Express.js · MongoDB · Stripe</div>
+      <div class="project-desc">Class and event booking platform for one-time and recurring sessions. Produced functional requirements for scheduling, automatic reminders, external calendar integration, and secure payments. Coordinated developer estimations and managed WBS.</div>
+      <div class="project-link-row"><span class="project-link">Visit Site →</span></div>
+    </a>
+    <a href="https://www.suedostcargo.at/en/home_en/" target="_blank" class="project-card reveal">
+      <div class="project-num">06</div>
+      <div class="project-title">Suedost</div>
+      <div class="project-stack">PHP · AWS · MySQL · Figma · Axure RP</div>
+      <div class="project-desc">Logistics automation system to extract sensor data from PDF reports received by email and convert into structured summary reports for medical goods in transit. Designed wireframes in Axure RP and produced detailed process documentation.</div>
+      <div class="project-link-row"><span class="project-link">Visit Site →</span></div>
+    </a>
+    <a href="https://live.myplug.com/events.html" target="_blank" class="project-card reveal">
+      <div class="project-num">07</div>
+      <div class="project-title">MyPlug</div>
+      <div class="project-stack">HTML · CSS · JavaScript · MySQL</div>
+      <div class="project-desc">Event discovery and loyalty rewards platform with exclusive events, deals, and discounts. Features membership benefits, affiliate offers, and loyalty point tracking. Documented user journeys, preference customisation flows, and reward mechanics.</div>
+      <div class="project-link-row"><span class="project-link">Visit Site →</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="edu-list">
+    <div class="edu-item reveal">
+      <div class="edu-year">May 2025 – May 2026</div>
+      <div>
+        <div class="edu-degree">MSc Cybersecurity Management</div>
+        <div class="edu-school">Ravensbourne University London</div>
+        <div class="edu-detail">Currently pursuing. Focus areas include cyber risk management, security principles in cloud computing, financial management for cybersecurity, and strategic threat analysis.</div>
+        <span class="edu-badge">Currently Pursuing</span>
+      </div>
+    </div>
+    <div class="edu-item reveal">
+      <div class="edu-year">Oct 2021 – Aug 2023</div>
+      <div>
+        <div class="edu-degree">M.E. Computer Engineering</div>
+        <div class="edu-school">Lok Jagruti University, Ahmedabad</div>
+        <div class="edu-detail">Specialised postgraduate study in advanced computing. SPI 9.0. Research on ML-based fraud detection — published in IRJET.</div>
+      </div>
+    </div>
+    <div class="edu-item reveal">
+      <div class="edu-year">Dec 2017 – Jun 2021</div>
+      <div>
+        <div class="edu-degree">B.E. Computer Engineering (GTU)</div>
+        <div class="edu-school">Gandhinagar Institute of Technology, Ahmedabad</div>
+        <div class="edu-detail">Graduated with 8.52 CGPA. Built foundational skills in Python, Django, databases, and machine learning.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Published Research</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="reveal">
+    <div class="research-card">
+      <div>
+        <div class="research-label">IRJET · Volume 9 Issue 11</div>
+        <div class="research-title">A Comparative Analysis of Credit Card Fraud Detection Using Machine Learning</div>
+        <div class="research-pub">International Research Journal of Engineering and Technology — XGBoosting, CatBoosting, Light Gradient Boosting</div>
+      </div>
+      <a href="https://www.irjet.net/archives/V9/i11/IRJET-V9I11162.pdf" target="_blank" class="research-link">View Paper →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Certifications &amp; Courses</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="certs-grid reveal">
+
+    <div class="cert-card">
+      <div class="cert-issuer">JPMorgan Chase · Forage</div>
+      <div class="cert-name">Quantitative Research Job Simulation</div>
+      <div class="cert-skills"><strong>Skills:</strong> Algorithm Development · Credit Analysis · Critical Thinking · Data Analysis · Financial Derivatives · Python Programming · Statistics</div>
+      <a href="https://www.theforage.com/completion-certificates/Sj7temL583QAYpHXD/bWqaecPDbYAwSDqJy_Sj7temL583QAYpHXD_68f200a0a4fed085fdc01fe4_1763424011685_completion_certificate.pdf" target="_blank" class="cert-link">View Certificate →</a>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-issuer">JPMorgan Chase · Forage</div>
+      <div class="cert-name">Software Engineering Job Simulation</div>
+      <div class="cert-skills"><strong>Skills:</strong> Spring Framework · Build Tools · Java Programming · Message Queuing · REST API · SQL Database</div>
+      <a href="https://www.theforage.com/completion-certificates/Sj7temL583QAYpHXD/E6McHJDKsQYh79moz_Sj7temL583QAYpHXD_68f200a0a4fed085fdc01fe4_1763467938044_completion_certificate.pdf" target="_blank" class="cert-link">View Certificate →</a>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-issuer">Deloitte · Forage</div>
+      <div class="cert-name">Data Analytics Job Simulation</div>
+      <div class="cert-skills"><strong>Skills:</strong> Data Analysis · Data Modeling · Data Visualisation · Log Analysis · Python Programming · Spreadsheet Skills · Web Security</div>
+      <a href="https://www.theforage.com/completion-certificates/Sj7temL583QAYpHXD/E6McHJDKsQYh79moz_Sj7temL583QAYpHXD_68f200a0a4fed085fdc01fe4_1763467938044_completion_certificate.pdf" target="_blank" class="cert-link">View Certificate →</a>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-issuer">Deloitte · Forage</div>
+      <div class="cert-name">Cyber Job Simulation</div>
+      <div class="cert-skills"><strong>Skills:</strong> Computer Networking · Data Structures · Log Analysis · Planning · Programming · Software Development · Web Security</div>
+      <a href="https://www.theforage.com/completion-certificates/Sj7temL583QAYpHXD/E6McHJDKsQYh79moz_Sj7temL583QAYpHXD_68f200a0a4fed085fdc01fe4_1763467938044_completion_certificate.pdf" target="_blank" class="cert-link">View Certificate →</a>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-issuer">Google Skills</div>
+      <div class="cert-name">Understand Google Cloud Agents</div>
+      <div class="cert-skills">Cloud agent architecture, Google Cloud platform fundamentals, and AI agent capabilities.</div>
+      <a href="https://www.skills.google/public_profiles/9f4c27e2-585d-478c-962b-b21338ab94cb/badges/20504679" target="_blank" class="cert-link">View Badge →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- WIREFRAMES -->
+<section id="wireframes">
+  <div class="section-header">
+    <span class="section-num">08</span>
+    <h2 class="section-title">Best Interactive Wireframes</h2>
+    <div class="section-rule"></div>
+  </div>
+  <p style="color:var(--mid);font-size:0.86rem;margin-bottom:2rem;font-weight:300;" class="reveal">Interactive wireframes created across client projects using Figma, Axure RP, Visily, and Canva. Click any card to view live.</p>
+  <div class="wf-grid reveal">
+    <a href="https://rffaxy.axshare.com/" target="_blank" class="wf-card">
+      <div class="wf-card-label">Axure RP</div>
+      Amazon Replica
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://w730uo.axshare.com" target="_blank" class="wf-card">
+      <div class="wf-card-label">Axure RP</div>
+      Suedost Cargo
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://www.figma.com/proto/At05IHJEte8DtUFaJpXLbK/RRHAY_Wireframe?page-id=0%3A1&node-id=187-41&viewport=-813%2C-310%2C0.42&t=SBGecqCohwxXs5kp-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=187%3A41&show-proto-sidebar=1" target="_blank" class="wf-card">
+      <div class="wf-card-label">Figma</div>
+      RRHAY Pet Management System
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://www.figma.com/proto/At05IHJEte8DtUFaJpXLbK/RRHAY_Wireframe?page-id=0%3A1&node-id=187-41&viewport=-813%2C-310%2C0.42&t=SBGecqCohwxXs5kp-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=187%3A41&show-proto-sidebar=1" target="_blank" class="wf-card">
+      <div class="wf-card-label">Figma</div>
+      Claim Track — Admin
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://se1pvb.axshare.com/" target="_blank" class="wf-card">
+      <div class="wf-card-label">Axure RP</div>
+      Claim Track — Staff
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://3mx8rb.axshare.com/" target="_blank" class="wf-card">
+      <div class="wf-card-label">Axure RP</div>
+      Claim Track — Mobile
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <div class="wf-card" style="opacity:0.45;pointer-events:none;">
+      <div class="wf-card-label">Figma</div>
+      Saxon Insurance — Admin
+    </div>
+    <a href="https://www.figma.com/proto/F4jfpwncT9CBsH5IVbreNV/Knit-Wireframe?page-id=0%3A1&node-id=1-2&viewport=332%2C695%2C0.3&t=7e18qJZjlxXVRQLp-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1%3A2" target="_blank" class="wf-card">
+      <div class="wf-card-label">Figma</div>
+      Knit
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://www.figma.com/proto/MTBt71WC6jzuMZbq7os6Ex/Eval_wireframe?page-id=0%3A1&node-id=111-3748&starting-point-node-id=15%3A682&t=GvvzjGpsWxXK3oZe-1" target="_blank" class="wf-card">
+      <div class="wf-card-label">Figma</div>
+      Eval Card
+      <span class="wf-card-arrow">View →</span>
+    </a>
+  </div>
+</section>
+
+<!-- PITCH DECKS -->
+<section id="pitchdecks">
+  <div class="section-header">
+    <span class="section-num">09</span>
+    <h2 class="section-title">Impressive Pitch Decks</h2>
+    <div class="section-rule"></div>
+  </div>
+  <p style="color:var(--mid);font-size:0.86rem;margin-bottom:2rem;font-weight:300;" class="reveal">Client pitch decks, propositions, and workshop presentations across industries. Click any card to view.</p>
+  <div class="wf-grid reveal">
+    <a href="https://docs.google.com/presentation/d/18VHQluN8GXf3DyDvt5JhZqxowf4QGhV4rRZ68j2TRXc/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      RRHAY
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/1csa6_gp9DEhOaQirAYLJ3MoNsDY9zKuXSiy9UlIs6Ps/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      Trawoger TMS Workshop &amp; Proposition
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/1DKhL63HOvJaC18jFCiyuJbSqK_4RCXMa80xFEDkW3xo/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      Universal Freight &amp; Transportation Inc
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/1TiMoaHI317_J8A0-7u-QXbt3iWX1x7BzKKCNJkT0YJ8/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      Start Up PPT
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/1v3IGmv4eNWozbyqcUTpIwbETVVjd4x3vaZ6xzlAxVVI/edit#slide=id.g269261d53b9_0_0" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      1+1 Gratis
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/1DqKi_cdM7ZpPzrczkz7D5ImqyNeSmaeAv9bIpJKyYSU/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      Leadbacker Pitch Deck
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/16kvm41UCmlHPnC3G3rYSxiT6jvy2faY1jq4d3ROsMOY/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      LUSCAN
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/1n3StndAoIe0xyyLoYsuRTkFVZOsX-2_YL034sgJ_pEg/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      Magasin
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/1B7IStUzRV9yA7a9kHI6Sf3C4vC3LSf0Ed49zBBHea0I/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      Colibri Energy
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/1afxOruWaB2kKVJOS-kaoCzcPl5Ee3PoZUkVNVyng0Ic/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      Jolioo Proposition
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/1KganJQwrFkkN4gu_HODJ089CZhnzZ-YYBIOjudEGP0s/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      Proposition for Udo Weinberger
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/1UQECtwAg4wxBIqygc1nlNh0KMV4mSMW3SJY6BYzCgok/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      ANTS-IN Proposition
+      <span class="wf-card-arrow">View →</span>
+    </a>
+    <a href="https://docs.google.com/presentation/d/1Ms1TE7c0u1cahjLzX50tA0lhEVmSjhAP6gT55-70WMw/edit?usp=sharing" target="_blank" class="wf-card">
+      <div class="wf-card-label">Google Slides</div>
+      Hostettler Pitch Deck
+      <span class="wf-card-arrow">View →</span>
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-num">10</span>
+    <h2 class="section-title">Contact</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="contact-grid reveal">
+    <div class="contact-text">
+      Open to Business Analyst roles in London and beyond. Let's discuss how I can add value to your team.
+    </div>
+    <div class="contact-links">
+      <div class="contact-item">
+        <span class="contact-item-label">Email</span>
+        <span class="contact-item-val"><a href="mailto:devangbarot112@gmail.com">devangbarot112@gmail.com</a></span>
+      </div>
+      <div class="contact-divider"></div>
+      <div class="contact-item">
+        <span class="contact-item-label">Phone</span>
+        <span class="contact-item-val">+44 7901 371555</span>
+      </div>
+      <div class="contact-divider"></div>
+      <div class="contact-item">
+        <span class="contact-item-label">LinkedIn</span>
+        <span class="contact-item-val"><a href="https://www.linkedin.com/in/devang-barot-012b88152/" target="_blank">linkedin.com/in/devang-barot-012b88152</a></span>
+      </div>
+      <div class="contact-divider"></div>
+      <div class="contact-item">
+        <span class="contact-item-label">Google Skills Profile</span>
+        <span class="contact-item-val"><a href="https://www.skills.google/public_profiles/9f4c27e2-585d-478c-962b-b21338ab94cb" target="_blank">skills.google — Devang Barot</a></span>
+      </div>
+      <div class="contact-divider"></div>
+      <div class="contact-item">
+        <span class="contact-item-label">Based in</span>
+        <span class="contact-item-val">London, United Kingdom</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-name">Devang Barot — Business Analyst Portfolio</span>
+  <span class="footer-note">London · 2025</span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('revealed'), i * 70);
+      }
+    });
+  }, { threshold: 0.06 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Close mobile menu on outside click
+  document.addEventListener('click', (e) => {
+    const menu = document.querySelector('.mobile-menu');
+    const btn = document.querySelector('.nav-hamburger');
+    if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+</script>
+</body>
+</html>
